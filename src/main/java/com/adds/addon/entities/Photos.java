@@ -1,18 +1,11 @@
 package com.adds.addon.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.io.File;
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "PhotoAdds")
+@Table
 public class Photos implements Serializable {
 
     @Id
@@ -22,7 +15,30 @@ public class Photos implements Serializable {
     @Column
     private File photo;
 
-    @Column
     @ManyToOne
     private Adds adds;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public File getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(File photo) {
+        this.photo = photo;
+    }
+
+    public Adds getAdds() {
+        return adds;
+    }
+
+    public void setAdds(Adds adds) {
+        this.adds = adds;
+    }
 }

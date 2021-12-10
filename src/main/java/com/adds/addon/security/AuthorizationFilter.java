@@ -1,6 +1,8 @@
 package com.adds.addon.security;
 
+import com.adds.addon.security.util.RolesUtil;
 import io.jsonwebtoken.Jwts;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @Configuration
+@ComponentScan(basePackages = "com.adds.addon.security")
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
     public AuthorizationFilter(AuthenticationManager authenticationManager) {
@@ -36,7 +39,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request){
         String token = request.getHeader("Authorization");
         if(token !=null){
-            String user = Jwts.parser().setSigningKey("SecretKeyToGenJWTs".getBytes())
+            String user = Jwts.parserBuilder().setSigningKey(RolesUtil.KEY).build()
                     .parseClaimsJws(token)
                     .getBody()
                     .getSubject();

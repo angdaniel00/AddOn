@@ -50,7 +50,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     @Transactional
-    Role createRoleIfNotFound(String name, Collection<Privilege> privileges){
+    void createRoleIfNotFound(String name, Collection<Privilege> privileges){
         Role role;
         Optional<Role> optRole = roleRepo.findByName(name);
         if (optRole.isEmpty())
@@ -59,6 +59,5 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             role = optRole.get();
         role.setPrivileges(privileges);
         roleRepo.save(role);
-        return role;
     }
 }

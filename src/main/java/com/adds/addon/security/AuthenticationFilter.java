@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jdk.jshell.execution.Util;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -50,7 +51,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         }
         String token = Jwts.builder().setSubject(user)
                 .setExpiration(new Date(System.currentTimeMillis()+86400000))
-                .signWith(Keys.keyPairFor(SignatureAlgorithm.HS512).getPrivate(),SignatureAlgorithm.HS512).compact();
+                .signWith(RolesUtil.KEY,SignatureAlgorithm.HS512).compact();
         response.addHeader("Authorization", token);
     }
 }
