@@ -1,11 +1,14 @@
 package com.adds.addon.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
-@Table
+@Table(name = "RoleUser")
 public class Role implements Serializable {
 
     public Role(){}
@@ -19,12 +22,14 @@ public class Role implements Serializable {
     private Long id;
 
     @Column(length = 25)
+    @Basic
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "roles_privileges",
         joinColumns = @JoinColumn(
                 name = "role_id",
@@ -58,6 +63,7 @@ public class Role implements Serializable {
         this.users = users;
     }
 
+    @Transactional
     public Collection<Privilege> getPrivileges() {
         return privileges;
     }

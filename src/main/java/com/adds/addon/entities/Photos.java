@@ -3,9 +3,10 @@ package com.adds.addon.entities;
 import javax.persistence.*;
 import java.io.File;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-@Table
+@Table(name = "PhotosAdds")
 public class Photos implements Serializable {
 
     @Id
@@ -15,7 +16,10 @@ public class Photos implements Serializable {
     @Column
     private File photo;
 
-    @ManyToOne
+    @Column
+    private boolean portairt;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Adds adds;
 
     public Long getId() {
@@ -40,5 +44,28 @@ public class Photos implements Serializable {
 
     public void setAdds(Adds adds) {
         this.adds = adds;
+    }
+
+    public boolean isPortairt() {
+        return portairt;
+    }
+
+    public void setPortairt(boolean portairt) {
+        this.portairt = portairt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Photos photos = (Photos) o;
+        return Objects.equals(id, photos.id) &&
+                Objects.equals(photo, photos.photo) &&
+                Objects.equals(adds, photos.adds);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, photo, adds);
     }
 }

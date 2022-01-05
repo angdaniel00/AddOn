@@ -12,9 +12,10 @@ public class ServicesAdds implements Serializable {
     private Long id;
 
     @Column(nullable = false)
+    @Basic
     private String service;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Adds adds;
 
     public Long getId() {

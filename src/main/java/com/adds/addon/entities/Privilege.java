@@ -1,15 +1,13 @@
 package com.adds.addon.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
-@Table
+@Table(name = "PrivilegeUser")
 public class Privilege implements Serializable {
 
     public Privilege(){}
@@ -28,9 +26,11 @@ public class Privilege implements Serializable {
     private Long id;
 
     @Column
+    @Basic
     private String name;
 
-    @ManyToMany(mappedBy = "privileges")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "privileges", fetch = FetchType.EAGER)
     private Collection<Role> roles;
 
     public Long getId() {
